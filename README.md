@@ -17,16 +17,18 @@ yacut:
   ├── tests
   ├── venv
   ├── yacut
-       ├── __pycache__
        ├── static
        ├── templates
        ├── __init__.py
        ├── api_views.py
+       ├── constants.py
        ├── error_handlers.py
        ├── forms.py
        ├── models.py
-       └── yacut.py
+       └── utils.py
+       ├── views.py
   ├── .env
+  ├── .flake8
   ├── .gitignore
   ├── openapi.yml
   ├── pytest.ini
@@ -49,19 +51,19 @@ DATABASE_URI=sqlite:///db.sqlite3
 ## 🚀 Запуск проекта
 1. Клонировать репозиторий:
 ```bash
-git clone https://github.com/VilmenAbramian/yacut.git
+git clone https://github.com/AntonPyth/yacut.git
 ```
 2. Создать и активировать виртуальное окружение:
-```bash
-python3 -m venv venv
-```
+
 Для Linux/macOS:
-```bash
+```
+python3 -m venv venv
 source venv/bin/activate
 ```
 Для Windows:
 ```
-venv\Scripts\activate.bat
+python -m venv venv
+. venv\Scripts\activate
 ```
 3. Обновить pip и установить зависимости из ```requirements.txt```
 ```bash

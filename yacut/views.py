@@ -60,7 +60,7 @@ async def add_files_view():
         for link in links:
             parsed_url = urllib.parse.urlparse(link.original)
             params = urllib.parse.parse_qs(parsed_url.query)
-            filename_encoded = params.get('filename', [None])[0]  # Обработать ошибку если нет ключа
+            filename_encoded = params.get('filename', [None])[0]
             files.append(
                 (filename_encoded, f'{URL_HOST}{link.short}')
             )

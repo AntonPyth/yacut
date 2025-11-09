@@ -16,12 +16,6 @@ def generate_short_link():
     data = request.get_json()
     if 'url' not in data:
         raise InvalidAPIUsage('\"url\" является обязательным полем!')
-    # я бы проверяла есть ли в базе оригинальная ссылка и
-    # если есть возвращала бы её короткую ссылку
-    # (невзирая на то передан короткий вариант или нет), но тесты не проходят.
-    # link = URLMap.query.filter_by(original=data['url']).first()
-    # if link is not None:
-    #     return jsonify(link.to_dict()), HTTPStatus.OK
     if 'custom_id' not in data or data['custom_id'] == '':
         short_id = get_unique_short_id()
     else:

@@ -11,15 +11,16 @@ from .utils import get_short_id_list, get_unique_short_id, validate_custom_id
 @app.route('/api/id', methods=['POST'])
 def generate_short_link():
     """Генерирует короткую ссылку вместо длинной."""
-    if not request.data:
+    if not request.data:    ## >>> если менять на if request.data is None: тесты падают. Проверил в интернете, так делать неверно.
         raise InvalidAPIUsage('Отсутствует тело запроса')
-    data = request.get_json()
-    if 'url' not in data:
+    data = request.get_json(silent=True)
+    if not data or 'url' not in data:
         raise InvalidAPIUsage('\"url\" является обязательным полем!')
-    if 'custom_id' not in data or data['custom_id'] == '':
+    custom_id = data.get('custom_id')
+    if not custom_id:
         short_id = get_unique_short_id()
     else:
-        short_id = data['custom_id']
+        short_id = custom_id
         if not validate_custom_id(short_id):
             raise InvalidAPIUsage(
                 'Указано недопустимое имя для короткой ссылки'
@@ -38,7 +39,6 @@ def generate_short_link():
 def get_original_link(short_id):
     """Возвращает первоначальную ссылку."""
     link = URLMap.query.filter_by(short=short_id).first()
-    print('short_link', link)
     if link is not None:
         return jsonify({'url': link.original}), HTTPStatus.OK
     raise InvalidAPIUsage(

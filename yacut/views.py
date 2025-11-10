@@ -20,7 +20,6 @@ def generate_short_link_view():
                 flash('Указано недопустимое имя для короткой ссылки')
                 return render_template('get_link.html', form=form)
             short_id_list = get_short_id_list()
-            print(short_id_list)
             if short_id in short_id_list:
                 flash('Предложенный вариант короткой ссылки уже существует.')
                 return render_template('get_link.html', form=form)

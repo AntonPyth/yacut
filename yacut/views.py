@@ -1,14 +1,10 @@
-import urllib.parse
-
 from flask import flash, redirect, render_template, url_for
 
 from . import app, db
-from .constants import URL_PREFIX
 from .forms import LinkForm
 from .models import URLMap
 from .utils import (get_short_id_list,
-                    get_unique_short_id, validate_custom_id
-)
+                    get_unique_short_id, validate_custom_id)
 
 
 @app.route('/', methods=['GET', 'POST'])

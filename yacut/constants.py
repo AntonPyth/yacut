@@ -1,7 +1,5 @@
 from string import ascii_letters, digits
 
-from . import app
-
 CHARACTERS = list(ascii_letters + digits)
 SHORT_LINK_LENGTH = 6
 

@@ -40,7 +40,7 @@ def generate_short_link_view():
     return render_template('get_link.html', form=form)
 
 
-@app.route('/<short_id>/', methods=['GET', 'POST'])
+@app.route('/<short_id>', methods=['GET', 'POST'])
 def redirect_to_original_link_view(short_id):
     """Принимает короткую ссылку и перенаправляет на оригинальную страницу."""
     original_link = URLMap.query.filter_by(short=short_id).first_or_404()

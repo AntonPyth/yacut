@@ -34,7 +34,7 @@ def generate_short_link():
     return jsonify(link.to_dict()), HTTPStatus.CREATED
 
 
-@app.route('/api/id/<short_id>/')
+@app.route('/api/id/<short_id>')
 def get_original_link(short_id):
     """Возвращает первоначальную ссылку."""
     link = URLMap.query.filter_by(short=short_id).first()

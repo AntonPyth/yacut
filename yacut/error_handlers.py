@@ -32,6 +32,6 @@ def page_not_found(error):
 
 
 @app.errorhandler(HTTPStatus.INTERNAL_SERVER_ERROR)
-def page_not_found(error):
+def internal_server_error(error):
     db.session.rollback()
     return render_template('500.html'), HTTPStatus.INTERNAL_SERVER_ERROR

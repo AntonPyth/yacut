@@ -1,5 +1,6 @@
-import pytest
 from http import HTTPStatus
+
+import pytest
 
 from yacut.models import URLMap
 
@@ -54,7 +55,7 @@ def test_create_empty_body(client):
         f'`{VALIDATION_ERROR_KEY}`.'
     )
     assert response.json == expected_response, (
-        f'Отевт на пустой POST-запрос к эндпоинту {CREATE_SHORT_LINK_URL} '
+        f'Ответ на пустой POST-запрос к эндпоинту {CREATE_SHORT_LINK_URL} '
         'не соответствует спецификации.'
     )
 

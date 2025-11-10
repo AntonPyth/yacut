@@ -1,11 +1,12 @@
 from datetime import datetime
 
 from yacut import db
-from .constants import URL_HOST, SHORT_PREFIX
+
+from .constants import URL_PREFIX
 
 
 class URLMap(db.Model):
-    """Модель для короткой ссылки."""
+    """Модель для ссылки."""
 
     id = db.Column(db.Integer, primary_key=True)
     original = db.Column(db.String, nullable=False)
@@ -14,4 +15,4 @@ class URLMap(db.Model):
 
     def to_dict(self):
         return {'url': self.original,
-                'short_link': f'{URL_HOST}{self.short}'}
+                'short_link': f'{URL_PREFIX}{self.short}'}

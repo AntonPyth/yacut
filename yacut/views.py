@@ -3,11 +3,12 @@ import urllib.parse
 from flask import flash, redirect, render_template, url_for
 
 from . import app, db
-from .constants import URL_HOST, SHORT_PREFIX
-from .forms import FileForm, LinkForm
+from .constants import URL_PREFIX
+from .forms import LinkForm
 from .models import URLMap
-from .utils import (get_unique_short_id, async_upload_files_to_ya_disk,
-                    validate_custom_id, get_short_id_list)
+from .utils import (get_short_id_list,
+                    get_unique_short_id, validate_custom_id
+)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -33,46 +34,19 @@ def generate_short_link_view():
         )
         db.session.add(link)
         db.session.commit()
-        short_link = f'{URL_HOST}{link.short}'
+        short_link = url_for(
+            'redirect_to_original_link_view',
+            short_id=link.short, _external=True
+        )
         return render_template(
             'get_link.html', form=form, short_link=short_link
         )
     return render_template('get_link.html', form=form)
 
 
-@app.route('/files', methods=['GET', 'POST'])
-async def add_files_view():
-    """
-    Представление для загрузки файлов на Яндекс Диск
-    и получения сслыки на них.
-    """
-    form = FileForm()
-    if form.validate_on_submit():
-        urls = await async_upload_files_to_ya_disk(form.files.data)
-        print(form.files.data, type(form.files.data))
-        links = [
-            URLMap(original=url['original_link'], short=url['short_id'])
-            for url in urls
-        ]
-        db.session.add_all(links)
-        db.session.commit()
-        files = []
-        for link in links:
-            parsed_url = urllib.parse.urlparse(link.original)
-            params = urllib.parse.parse_qs(parsed_url.query)
-            filename_encoded = params.get('filename', [None])[0]
-            files.append(
-                (filename_encoded, f'{URL_HOST}{link.short}')
-            )
-        return render_template(
-            'add_files.html', form=form, files=files
-        )
-    return render_template('add_files.html', form=form)
-
-
 @app.route('/<short_id>/', methods=['GET', 'POST'])
 def redirect_to_original_link_view(short_id):
-    """Принимает короткую ссылку и перенаправляет на оригинальную."""
+    """Принимает короткую ссылку и перенаправляет на оригинальную страницу."""
     original_link = URLMap.query.filter_by(short=short_id).first_or_404()
     print(original_link)
     return redirect(original_link.original)

@@ -5,5 +5,3 @@ SHORT_LINK_LENGTH = 6
 
 URL_PREFIX = 'http://localhost/'
 SHORT_PREFIX = 'short/'
-
-API_VERSION = 'v1'

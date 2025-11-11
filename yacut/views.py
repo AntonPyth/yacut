@@ -43,5 +43,4 @@ def generate_short_link_view():
 def redirect_to_original_link_view(short_id):
     """Принимает короткую ссылку и перенаправляет на оригинальную страницу."""
     original_link = URLMap.query.filter_by(short=short_id).first_or_404()
-    print(original_link)
     return redirect(original_link.original)
